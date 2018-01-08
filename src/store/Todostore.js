@@ -1,18 +1,7 @@
 class Todostore extends EventEmitter{
 	constructor(){
 		super();
-		this.todos = [
-			{
-				id:2122332112,
-				text:"Do your Work",
-				complete:false
-			},
-			{
-				id:4454323211,
-				text:"Next Todo work",
-				complete:false
-			}
-		];
+		this.todos = [];
 	}
 	getTodos(){
 		return this.todos;
@@ -25,10 +14,25 @@ class Todostore extends EventEmitter{
 		});
 		this.emit('change');
 	}
+	removeTodo(id){
+		for(let i=0;i<this.todos.length;i++){
+			if(this.todos[i].id == id){
+				this.todos.splice(i,1);
+			}
+		}
+		this.emit("change");
+	}
 	handleTodos(action){
 		switch(action.type){
 			case'CREATE_TODO':
 				this.createTodo(action.text);
+				break;
+			case'REMOVE_TODO':
+				this.removeTodo(action.id);
+				break;
+			case'LOAD_TODOS':
+				this.todos=action.todos;
+				this.emit("change");
 				break;
 		}
 	}

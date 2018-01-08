@@ -2,12 +2,13 @@ class App extends React.Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			todos:todostore.getTodos()
+			todos:[]
 		};
 		this.getTodos = this.getTodos.bind(this);
 	}
 	componentWillMount(){
 		console.log(window);
+		todoactions.loadTodos();
 		todostore.on("change",()=>{
 			this.getTodos();
 		});
@@ -19,7 +20,7 @@ class App extends React.Component{
 		return (<div>
 				<ul>
 					{this.state.todos.map((item)=>{
-						return (<li>{item.text}</li>);
+						return (<Todo id={item.id} text={item.text} />);
 					})}
 				</ul>
 				<Addtodo />
